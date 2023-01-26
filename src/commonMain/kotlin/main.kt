@@ -28,21 +28,36 @@ suspend fun main() = Korge(width = 512, height = 512, bgcolor = Colors["#2b2b2b"
 }
 
 class MyScene : Scene() {
+
 	override suspend fun SContainer.sceneMain() {
 		val minDegrees = (-16).degrees
 		val maxDegrees = (+16).degrees
+        val stage = stage!!
 
-        val cellSize = views.virtualWidth / 5.0;
+        //val cellSize = views.virtualWidth / 5.0;
 
-        println("CellSize  $cellSize");
+        //println("CellSize  $cellSize");
         println("Virtual Width  ${views.virtualWidth}");
 
         //What? I have no idea what this is for...
-        val fieldSize = 50.0 * 4 * cellSize;
-        val leftIndent = (views.virtualWidth - fieldSize) / 2;
+        //vl fieldSize = 50.0 * 4 * cellSize;a
+        //val leftIndent = (views.virtualWidth - fieldSize) / 2;
 
         //Works
         val topIndent = 150.0
+        val guideLine = 10.0;
+
+        val columnCount = 4;
+        val rowCount = 4;
+
+        val gridHeight = stage.height - topIndent;
+        val gridWidth = stage.width;
+
+        val cellWidth = (gridWidth - ((columnCount + 1) * guideLine)) / columnCount;
+        val cellHeight = (gridHeight - ((rowCount + 1) * guideLine)) / rowCount;
+
+
+
 
         //Doesn't work
         //val topIndent: Double = 150;
@@ -52,17 +67,14 @@ class MyScene : Scene() {
             x = leftIndent;
             y = topIndent;
         };*/
-
-        val stage = stage!!
-
         fixedSizeContainer(stage.width, stage.height) {
             x = 0.0;
-            y = 0.0;
+            y = topIndent;
             for (i in 0..3) {
                 for (j in 0..3) {
-                    roundRect(cellSize, cellSize, 5.0, fill = Colors["#b9aea0"]) {
-                        x = 10.0 + (10 + cellSize) * i;
-                        y = 10.0 + (10 + cellSize) * j;
+                    roundRect(cellWidth, cellHeight, 5.0, fill = Colors["#b9aea0"]) {
+                        x = guideLine + (guideLine + cellWidth) * i;
+                        y = guideLine + (guideLine + cellHeight) * j;
                     }
                 }
             }
